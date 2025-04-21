@@ -1,4 +1,4 @@
-package com.example.gateway.ui.theme
+package org.pasosdeJesus.gateway.ui.theme
 
 import android.app.Activity
 import android.os.Build

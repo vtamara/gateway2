@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.gateway"
+    namespace = "org.pasosdeJesus.gateway"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.gateway"
+        applicationId = "org.pasosdeJesus.gateway"
         minSdk = 24
         targetSdk = 35
         versionCode = 1

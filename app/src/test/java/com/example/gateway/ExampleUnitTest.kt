@@ -1,4 +1,4 @@
-package com.example.gateway
+package org.pasosdeJesus.gateway
 
 import org.junit.Test
 

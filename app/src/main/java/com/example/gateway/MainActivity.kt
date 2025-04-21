@@ -6,7 +6,7 @@
  * https://stackoverflow.com/questions/76897405/how-to-receive-and-send-sms-kotlin-android-studio
  *
  */
-package com.example.gateway
+package org.pasosdeJesus.gateway
 
 import android.Manifest
 import android.content.BroadcastReceiver
@@ -42,7 +42,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.registerReceiver
 import androidx.core.content.ContextCompat.startActivity
-import com.example.gateway.ui.theme.GatewayTheme
+import org.pasosdeJesus.gateway.ui.theme.GatewayTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

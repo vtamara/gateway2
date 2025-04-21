@@ -1,4 +1,4 @@
-package com.example.gateway
+package org.pasosdeJesus.gateway
 
 import android.content.BroadcastReceiver
 import android.content.Context
