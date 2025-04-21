@@ -42,17 +42,22 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.registerReceiver
 import androidx.core.content.ContextCompat.startActivity
-import org.pasosdeJesus.gateway.ui.theme.GatewayTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
+import org.pasosdeJesus.gateway.ui.theme.GatewayTheme
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,6 +74,22 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+}
+
+val JSON: MediaType = "application/json".toMediaType()
+
+var client = OkHttpClient()
+
+@Throws(IOException::class)
+fun post(url: String, json: String): String {
+    val body: RequestBody = json.toRequestBody(JSON)
+    val request: Request = Request.Builder()
+        .url(url)
+        .post(body)
+        .build()
+    client.newCall(request).execute().use { response ->
+        return response.body!!.string()
     }
 }
 
@@ -226,26 +247,50 @@ fun App(name: String, activity: MainActivity?, modifier: Modifier = Modifier) {
             }
         }
         Row {
-           Button(onClick = {
-               val scope = CoroutineScope(Dispatchers.IO)
-               scope.launch {
-                   try {
-                       val apiData = fetchApiData("https://android-kotlin-fun-mars-server.appspot.com/photos")
-                       recentLogs = addLog(
-                           recentLogs,
-                           "Received from API '$apiData'"
-                       )
-                   } catch (e: Exception) {
-                       e.printStackTrace()
-                       recentLogs = addLog(
-                           recentLogs,
-                           "Couldn't receive from API"
-                       )
-                   }
-               }
+            Button(onClick = {
+                val scope = CoroutineScope(Dispatchers.IO)
+                scope.launch {
+                    try {
+                        val apiData =
+                            fetchApiData("https://android-kotlin-fun-mars-server.appspot.com/photos")
+                        recentLogs = addLog(
+                            recentLogs,
+                            "Received from API '$apiData'"
+                        )
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        recentLogs = addLog(
+                            recentLogs,
+                            "Couldn't receive from API"
+                        )
+                    }
+                }
 
             }) {
                 Text("Get from API")
+            }
+        }
+        Row {
+            Button(onClick = {
+                val scope = CoroutineScope(Dispatchers.IO)
+                scope.launch {
+                    try {
+                        post(url = "https://stable-sl.pdJ.app", json = "{}")
+                        recentLogs = addLog(
+                            recentLogs,
+                            "Posted test"
+                        )
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        recentLogs = addLog(
+                            recentLogs,
+                            "Couldn't post"
+                        )
+                    }
+                }
+
+            }) {
+                Text("POST to API")
             }
         }
     }
